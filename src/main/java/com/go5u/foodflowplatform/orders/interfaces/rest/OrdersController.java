@@ -1,15 +1,15 @@
-package com.go4u.keepitfreshplatform.orders.interfaces.rest;
+package com.go5u.foodflowplatform.orders.interfaces.rest;
 
 
-import com.go4u.keepitfreshplatform.orders.domain.model.queries.GetAllOrdersQuery;
-import com.go4u.keepitfreshplatform.orders.domain.model.queries.GetOrderByIdQuery;
-import com.go4u.keepitfreshplatform.orders.domain.model.queries.GetOrdersByTableNumberQuery;
-import com.go4u.keepitfreshplatform.orders.domain.services.OrderCommandService;
-import com.go4u.keepitfreshplatform.orders.domain.services.OrderQueryService;
-import com.go4u.keepitfreshplatform.orders.interfaces.rest.resources.CreateOrderResource;
-import com.go4u.keepitfreshplatform.orders.interfaces.rest.resources.OrderResource;
-import com.go4u.keepitfreshplatform.orders.interfaces.rest.transform.CreateOrderCommandFromResourceAssembler;
-import com.go4u.keepitfreshplatform.orders.interfaces.rest.transform.OrderResourceFromEntityAssembler;
+import com.go5u.foodflowplatform.orders.domain.model.queries.GetAllOrdersQuery;
+import com.go5u.foodflowplatform.orders.domain.model.queries.GetOrderByIdQuery;
+import com.go5u.foodflowplatform.orders.domain.model.queries.GetOrdersByTableNumberQuery;
+import com.go5u.foodflowplatform.orders.domain.services.OrderCommandService;
+import com.go5u.foodflowplatform.orders.domain.services.OrderQueryService;
+import com.go5u.foodflowplatform.orders.interfaces.rest.resources.CreateOrderResource;
+import com.go5u.foodflowplatform.orders.interfaces.rest.resources.OrderResource;
+import com.go5u.foodflowplatform.orders.interfaces.rest.transform.CreateOrderCommandFromResourceAssembler;
+import com.go5u.foodflowplatform.orders.interfaces.rest.transform.OrderResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

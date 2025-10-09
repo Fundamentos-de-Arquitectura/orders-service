@@ -1,10 +1,10 @@
-package com.go4u.keepitfreshplatform;
+package com.go5u.foodflowplatform;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class KeepItFreshPlatformApplicationTests {
+class FoodFlowPlatformApplicationTests {
 
     @Test
     void contextLoads() {

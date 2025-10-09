@@ -1,9 +1,9 @@
-package com.go4u.keepitfreshplatform.orders.application.internal.commandservices;
+package com.go5u.foodflowplatform.orders.application.internal.commandservices;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.aggregates.Dish;
-import com.go4u.keepitfreshplatform.orders.domain.model.commands.CreateDishCommand;
-import com.go4u.keepitfreshplatform.orders.domain.services.DishCommandService;
-import com.go4u.keepitfreshplatform.orders.infrastructure.persistence.jpa.repositories.DishRepository;
+import com.go5u.foodflowplatform.orders.domain.model.aggregates.Dish;
+import com.go5u.foodflowplatform.orders.domain.model.commands.CreateDishCommand;
+import com.go5u.foodflowplatform.orders.domain.services.DishCommandService;
+import com.go5u.foodflowplatform.orders.infrastructure.persistence.jpa.repositories.DishRepository;
 import org.springframework.stereotype.Service;
 
 @Service

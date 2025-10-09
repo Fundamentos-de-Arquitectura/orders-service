@@ -1,7 +1,7 @@
-package com.go4u.keepitfreshplatform.orders.interfaces.rest.transform;
+package com.go5u.foodflowplatform.orders.interfaces.rest.transform;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.commands.CreateOrderCommand;
-import com.go4u.keepitfreshplatform.orders.interfaces.rest.resources.CreateOrderResource;
+import com.go5u.foodflowplatform.orders.domain.model.commands.CreateOrderCommand;
+import com.go5u.foodflowplatform.orders.interfaces.rest.resources.CreateOrderResource;
 
 public class CreateOrderCommandFromResourceAssembler {
     public static CreateOrderCommand toCommandFromResource(CreateOrderResource resource) {

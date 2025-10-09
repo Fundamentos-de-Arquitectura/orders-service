@@ -1,4 +1,4 @@
-package com.go4u.keepitfreshplatform.orders.domain.model.commands;
+package com.go5u.foodflowplatform.orders.domain.model.commands;
 
 public record CreateOrderCommand(int tableNumber) {
 }

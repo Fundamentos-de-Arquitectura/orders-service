@@ -1,14 +1,14 @@
-package com.go4u.keepitfreshplatform.orders.application.internal.commandservices;
+package com.go5u.foodflowplatform.orders.application.internal.commandservices;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.aggregates.Order;
-import com.go4u.keepitfreshplatform.orders.domain.model.commands.AddDishToOrderCommand;
-import com.go4u.keepitfreshplatform.orders.domain.model.commands.CreateOrderCommand;
-import com.go4u.keepitfreshplatform.orders.domain.model.entities.OrderItem;
-import com.go4u.keepitfreshplatform.orders.domain.model.valueobjects.OrderSummary;
-import com.go4u.keepitfreshplatform.orders.domain.model.valueobjects.Price;
-import com.go4u.keepitfreshplatform.orders.domain.services.OrderCommandService;
-import com.go4u.keepitfreshplatform.orders.infrastructure.persistence.jpa.repositories.DishRepository;
-import com.go4u.keepitfreshplatform.orders.infrastructure.persistence.jpa.repositories.OrderRepository;
+import com.go5u.foodflowplatform.orders.domain.model.aggregates.Order;
+import com.go5u.foodflowplatform.orders.domain.model.commands.AddDishToOrderCommand;
+import com.go5u.foodflowplatform.orders.domain.model.commands.CreateOrderCommand;
+import com.go5u.foodflowplatform.orders.domain.model.entities.OrderItem;
+import com.go5u.foodflowplatform.orders.domain.model.valueobjects.OrderSummary;
+import com.go5u.foodflowplatform.orders.domain.model.valueobjects.Price;
+import com.go5u.foodflowplatform.orders.domain.services.OrderCommandService;
+import com.go5u.foodflowplatform.orders.infrastructure.persistence.jpa.repositories.DishRepository;
+import com.go5u.foodflowplatform.orders.infrastructure.persistence.jpa.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

@@ -1,13 +1,13 @@
-package com.go4u.keepitfreshplatform.orders.application.internal.queryservices;
+package com.go5u.foodflowplatform.orders.application.internal.queryservices;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.aggregates.Order;
-import com.go4u.keepitfreshplatform.orders.domain.model.entities.OrderItem;
-import com.go4u.keepitfreshplatform.orders.domain.model.queries.GetAllOrdersQuery;
-import com.go4u.keepitfreshplatform.orders.domain.model.queries.GetOrderByIdQuery;
-import com.go4u.keepitfreshplatform.orders.domain.model.queries.GetOrderItemByTableQuery;
-import com.go4u.keepitfreshplatform.orders.domain.model.queries.GetOrdersByTableNumberQuery;
-import com.go4u.keepitfreshplatform.orders.domain.services.OrderQueryService;
-import com.go4u.keepitfreshplatform.orders.infrastructure.persistence.jpa.repositories.OrderRepository;
+import com.go5u.foodflowplatform.orders.domain.model.aggregates.Order;
+import com.go5u.foodflowplatform.orders.domain.model.entities.OrderItem;
+import com.go5u.foodflowplatform.orders.domain.model.queries.GetAllOrdersQuery;
+import com.go5u.foodflowplatform.orders.domain.model.queries.GetOrderByIdQuery;
+import com.go5u.foodflowplatform.orders.domain.model.queries.GetOrderItemByTableQuery;
+import com.go5u.foodflowplatform.orders.domain.model.queries.GetOrdersByTableNumberQuery;
+import com.go5u.foodflowplatform.orders.domain.services.OrderQueryService;
+import com.go5u.foodflowplatform.orders.infrastructure.persistence.jpa.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
 

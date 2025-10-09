@@ -1,6 +1,6 @@
-package com.go4u.keepitfreshplatform.orders.interfaces.rest.resources;
+package com.go5u.foodflowplatform.orders.interfaces.rest.resources;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.valueobjects.Price;
+import com.go5u.foodflowplatform.orders.domain.model.valueobjects.Price;
 
 public record OrderResource(Long id, int tableNumber) {
 }

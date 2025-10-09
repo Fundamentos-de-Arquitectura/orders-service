@@ -1,6 +1,6 @@
-package com.go4u.keepitfreshplatform.orders.domain.model.commands;
+package com.go5u.foodflowplatform.orders.domain.model.commands;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.valueobjects.Quantity;
+import com.go5u.foodflowplatform.orders.domain.model.valueobjects.Quantity;
 
 public record AddDishToOrderCommand(Long orderId, Long dishId, Quantity quantity) {
 }

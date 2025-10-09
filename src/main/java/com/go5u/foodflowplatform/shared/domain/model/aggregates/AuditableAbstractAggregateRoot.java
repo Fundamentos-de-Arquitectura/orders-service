@@ -1,4 +1,4 @@
-package com.go4u.keepitfreshplatform.shared.domain.model.aggregates;
+package com.go5u.foodflowplatform.shared.domain.model.aggregates;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,7 +1,7 @@
-package com.go4u.keepitfreshplatform.orders.interfaces.rest;
+package com.go5u.foodflowplatform.orders.interfaces.rest;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.queries.GetAllOrdersQuery;
-import com.go4u.keepitfreshplatform.orders.domain.services.OrderQueryService;
+import com.go5u.foodflowplatform.orders.domain.model.queries.GetAllOrdersQuery;
+import com.go5u.foodflowplatform.orders.domain.services.OrderQueryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

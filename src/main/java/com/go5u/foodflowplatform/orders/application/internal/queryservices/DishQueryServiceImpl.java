@@ -1,10 +1,10 @@
-package com.go4u.keepitfreshplatform.orders.application.internal.queryservices;
+package com.go5u.foodflowplatform.orders.application.internal.queryservices;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.aggregates.Dish;
-import com.go4u.keepitfreshplatform.orders.domain.model.queries.GetAllDishesQuery;
-import com.go4u.keepitfreshplatform.orders.domain.model.queries.GetDishByIdQuery;
-import com.go4u.keepitfreshplatform.orders.domain.services.DishQueryService;
-import com.go4u.keepitfreshplatform.orders.infrastructure.persistence.jpa.repositories.DishRepository;
+import com.go5u.foodflowplatform.orders.domain.model.aggregates.Dish;
+import com.go5u.foodflowplatform.orders.domain.model.queries.GetAllDishesQuery;
+import com.go5u.foodflowplatform.orders.domain.model.queries.GetDishByIdQuery;
+import com.go5u.foodflowplatform.orders.domain.services.DishQueryService;
+import com.go5u.foodflowplatform.orders.infrastructure.persistence.jpa.repositories.DishRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

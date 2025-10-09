@@ -1,6 +1,6 @@
-package com.go4u.keepitfreshplatform.orders.domain.model.commands;
+package com.go5u.foodflowplatform.orders.domain.model.commands;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.valueobjects.Price;
+import com.go5u.foodflowplatform.orders.domain.model.valueobjects.Price;
 
 public record CreateDishCommand(String name, Price price) {
 }

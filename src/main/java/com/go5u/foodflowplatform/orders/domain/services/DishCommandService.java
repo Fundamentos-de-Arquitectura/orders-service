@@ -1,6 +1,6 @@
-package com.go4u.keepitfreshplatform.orders.domain.services;
+package com.go5u.foodflowplatform.orders.domain.services;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.commands.CreateDishCommand;
+import com.go5u.foodflowplatform.orders.domain.model.commands.CreateDishCommand;
 
 public interface DishCommandService {
 

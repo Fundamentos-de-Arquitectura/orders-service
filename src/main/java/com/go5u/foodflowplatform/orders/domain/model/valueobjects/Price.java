@@ -1,4 +1,4 @@
-package com.go4u.keepitfreshplatform.orders.domain.model.valueobjects;
+package com.go5u.foodflowplatform.orders.domain.model.valueobjects;
 
 import jakarta.persistence.Embeddable;
 

@@ -1,7 +1,7 @@
-package com.go4u.keepitfreshplatform.orders.interfaces.rest;
+package com.go5u.foodflowplatform.orders.interfaces.rest;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.aggregates.Dish;
-import com.go4u.keepitfreshplatform.orders.infrastructure.persistence.jpa.repositories.DishRepository;
+import com.go5u.foodflowplatform.orders.domain.model.aggregates.Dish;
+import com.go5u.foodflowplatform.orders.infrastructure.persistence.jpa.repositories.DishRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

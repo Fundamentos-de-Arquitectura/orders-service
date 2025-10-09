@@ -1,11 +1,11 @@
-package com.go4u.keepitfreshplatform.orders.domain.services;
+package com.go5u.foodflowplatform.orders.domain.services;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.aggregates.Order;
-import com.go4u.keepitfreshplatform.orders.domain.model.entities.OrderItem;
-import com.go4u.keepitfreshplatform.orders.domain.model.queries.GetAllOrdersQuery;
-import com.go4u.keepitfreshplatform.orders.domain.model.queries.GetOrderByIdQuery;
-import com.go4u.keepitfreshplatform.orders.domain.model.queries.GetOrderItemByTableQuery;
-import com.go4u.keepitfreshplatform.orders.domain.model.queries.GetOrdersByTableNumberQuery;
+import com.go5u.foodflowplatform.orders.domain.model.aggregates.Order;
+import com.go5u.foodflowplatform.orders.domain.model.entities.OrderItem;
+import com.go5u.foodflowplatform.orders.domain.model.queries.GetAllOrdersQuery;
+import com.go5u.foodflowplatform.orders.domain.model.queries.GetOrderByIdQuery;
+import com.go5u.foodflowplatform.orders.domain.model.queries.GetOrderItemByTableQuery;
+import com.go5u.foodflowplatform.orders.domain.model.queries.GetOrdersByTableNumberQuery;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,9 +1,9 @@
-package com.go4u.keepitfreshplatform.orders.domain.model.valueobjects;
+package com.go5u.foodflowplatform.orders.domain.model.valueobjects;
 
 
-import com.go4u.keepitfreshplatform.orders.domain.model.aggregates.Dish;
-import com.go4u.keepitfreshplatform.orders.domain.model.aggregates.Order;
-import com.go4u.keepitfreshplatform.orders.domain.model.entities.OrderItem;
+import com.go5u.foodflowplatform.orders.domain.model.aggregates.Dish;
+import com.go5u.foodflowplatform.orders.domain.model.aggregates.Order;
+import com.go5u.foodflowplatform.orders.domain.model.entities.OrderItem;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;

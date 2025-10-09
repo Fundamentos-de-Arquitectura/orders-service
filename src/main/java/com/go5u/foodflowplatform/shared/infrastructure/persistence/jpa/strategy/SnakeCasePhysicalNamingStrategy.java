@@ -1,4 +1,4 @@
-package com.go4u.keepitfreshplatform.shared.infrastructure.persistence.jpa.strategy;
+package com.go5u.foodflowplatform.shared.infrastructure.persistence.jpa.strategy;
 
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;

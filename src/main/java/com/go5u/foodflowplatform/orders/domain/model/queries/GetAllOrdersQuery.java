@@ -1,4 +1,4 @@
-package com.go4u.keepitfreshplatform.orders.domain.model.queries;
+package com.go5u.foodflowplatform.orders.domain.model.queries;
 
 public record GetAllOrdersQuery() {
 }

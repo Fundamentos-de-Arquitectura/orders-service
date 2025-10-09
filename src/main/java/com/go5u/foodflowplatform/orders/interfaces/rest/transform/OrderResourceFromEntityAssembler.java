@@ -1,7 +1,7 @@
-package com.go4u.keepitfreshplatform.orders.interfaces.rest.transform;
+package com.go5u.foodflowplatform.orders.interfaces.rest.transform;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.aggregates.Order;
-import com.go4u.keepitfreshplatform.orders.interfaces.rest.resources.OrderResource;
+import com.go5u.foodflowplatform.orders.domain.model.aggregates.Order;
+import com.go5u.foodflowplatform.orders.interfaces.rest.resources.OrderResource;
 
 public class OrderResourceFromEntityAssembler {
 

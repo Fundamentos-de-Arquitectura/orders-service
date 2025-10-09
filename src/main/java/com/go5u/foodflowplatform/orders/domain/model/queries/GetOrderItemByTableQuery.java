@@ -1,7 +1,7 @@
-package com.go4u.keepitfreshplatform.orders.domain.model.queries;
+package com.go5u.foodflowplatform.orders.domain.model.queries;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.entities.OrderItem;
-import com.go4u.keepitfreshplatform.orders.domain.model.valueobjects.Table;
+import com.go5u.foodflowplatform.orders.domain.model.entities.OrderItem;
+import com.go5u.foodflowplatform.orders.domain.model.valueobjects.Table;
 
 public record GetOrderItemByTableQuery(int tableNumber){
 }

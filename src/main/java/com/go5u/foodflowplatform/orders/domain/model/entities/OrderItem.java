@@ -1,10 +1,10 @@
-package com.go4u.keepitfreshplatform.orders.domain.model.entities;
+package com.go5u.foodflowplatform.orders.domain.model.entities;
 
-import com.go4u.keepitfreshplatform.orders.domain.model.aggregates.Dish;
-import com.go4u.keepitfreshplatform.orders.domain.model.aggregates.Order;
-import com.go4u.keepitfreshplatform.orders.domain.model.valueobjects.Quantity;
+import com.go5u.foodflowplatform.orders.domain.model.aggregates.Dish;
+import com.go5u.foodflowplatform.orders.domain.model.aggregates.Order;
+import com.go5u.foodflowplatform.orders.domain.model.valueobjects.Quantity;
 
-import com.go4u.keepitfreshplatform.shared.domain.model.entities.AuditableModel;
+import com.go5u.foodflowplatform.shared.domain.model.entities.AuditableModel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
