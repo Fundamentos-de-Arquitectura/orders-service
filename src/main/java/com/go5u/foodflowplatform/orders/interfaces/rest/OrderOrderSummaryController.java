@@ -1,5 +1,6 @@
 package com.go5u.foodflowplatform.orders.interfaces.rest;
 
+import com.go5u.foodflowplatform.orders.domain.model.aggregates.Order;
 import com.go5u.foodflowplatform.orders.domain.model.commands.AddDishToOrderCommand;
 import com.go5u.foodflowplatform.orders.domain.model.queries.GetOrderByIdQuery;
 import com.go5u.foodflowplatform.orders.domain.model.valueobjects.Quantity;
@@ -9,16 +10,17 @@ import com.go5u.foodflowplatform.orders.interfaces.rest.resources.AddOrderItemRe
 import com.go5u.foodflowplatform.orders.interfaces.rest.resources.OrderItemResource;
 import com.go5u.foodflowplatform.orders.interfaces.rest.transform.OrderItemResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import java.util.Optional;
 
-//@CrossOrigin(origins = "http://localhost:4200")
+@Slf4j
 @RestController
-@RequestMapping(value = "/api/v1/orders/order-summary",produces = APPLICATION_JSON_VALUE)
-@Tag(name = "Orders")
+@RequestMapping("/api/v1/orders/order-summary")
+@Tag(name = "Orders", description = "Order Summary APIs")
 public class OrderOrderSummaryController {
 
     private final OrderCommandService orderCommandService;
@@ -30,36 +32,40 @@ public class OrderOrderSummaryController {
     }
 
     /**
-     * Adds an order item to order summary
+     * Add order item to order summary
      */
     @PostMapping("/{orderId}")
     public ResponseEntity<OrderItemResource> addOrderItemToOrderSummary(
             @PathVariable Long orderId, @RequestBody AddOrderItemResource resource) {
 
-        var addDishToOrderCommand = new AddDishToOrderCommand(orderId, resource.dishId(), new Quantity(resource.quantity()));
+        try {
+            var addDishToOrderCommand = new AddDishToOrderCommand(orderId, resource.dishId(), new Quantity(resource.quantity()));
 
-        try{
             orderCommandService.handle(addDishToOrderCommand);
 
             var updatedOrder = orderQueryService.handle(new GetOrderByIdQuery(orderId));
-            if(updatedOrder.isEmpty()) return ResponseEntity.notFound().build();
+            if (updatedOrder.isEmpty()) return ResponseEntity.notFound().build();
 
             var order = updatedOrder.get();
-
             var items = order.getOrderSummary().getOrderItems();
-            if(items.isEmpty()) return ResponseEntity.internalServerError().build();
+            if (items.isEmpty()) return ResponseEntity.noContent().build();
 
             var lastItem = items.getLast();
-
             var itemResource = OrderItemResourceFromEntityAssembler.toResourceFromEntity(lastItem);
 
             return new ResponseEntity<>(itemResource, HttpStatus.CREATED);
 
-        }catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            log.error("Error processing order summary item", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
+    /**
+     * Get order summary by order ID
+     */
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderItemResource> getOrderItemById(@PathVariable Long orderId) {
         var order = orderQueryService.handle(new GetOrderByIdQuery(orderId));
