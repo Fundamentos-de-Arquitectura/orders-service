@@ -11,11 +11,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.go4u</groupId>
-    <artifactId>keep-it-fresh-platform</artifactId>
+    <groupId>com.go5u</groupId>
+    <artifactId>foodflowplatform</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>keep-it-fresh-platform</name>
-    <description>keep-it-fresh-platform</description>
+    <name>foodflowplatform</name>
+    <description>foodflowplatform</description>
 
     <properties>
         <java.version>23</java.version>
@@ -111,7 +111,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <release>23</release>
+                    <release>24</release>
                     <compilerArgs>
                         <arg>--enable-preview</arg>
                     </compilerArgs>
