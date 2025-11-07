@@ -39,4 +39,13 @@ public class Dish extends AuditableModel {
         this.price = command.price();
     }
 
+    public void update(String name, BigDecimal price) {
+        if (name != null) {
+            this.name = name;
+        }
+        if (price != null) {
+            this.price = new Price(price);
+        }
+    }
+
 }
