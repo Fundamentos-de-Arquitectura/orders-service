@@ -2,14 +2,17 @@ package com.go5u.foodflowplatform.orders.interfaces.rest;
 
 import com.go5u.foodflowplatform.orders.domain.model.aggregates.Order;
 import com.go5u.foodflowplatform.orders.domain.model.commands.CreateOrderCommand;
+import com.go5u.foodflowplatform.orders.domain.model.commands.CreateOrderWithDishesCommand;
 import com.go5u.foodflowplatform.orders.domain.model.queries.GetAllOrdersQuery;
 import com.go5u.foodflowplatform.orders.domain.model.queries.GetOrderByIdQuery;
 import com.go5u.foodflowplatform.orders.domain.model.queries.GetOrdersByTableNumberQuery;
 import com.go5u.foodflowplatform.orders.domain.services.OrderCommandService;
 import com.go5u.foodflowplatform.orders.domain.services.OrderQueryService;
+import com.go5u.foodflowplatform.orders.interfaces.dto.CreateOrderRequest;
+import com.go5u.foodflowplatform.orders.interfaces.dto.OrderResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.tags.Tags;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -35,38 +38,95 @@ public class OrdersController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new order", description = "Create a new order")
-    public ResponseEntity<Map<String, Object>> createOrder(@RequestBody Map<String, Object> body) {
+    @Operation(summary = "Create a new order with dishes", description = "Create a new order with dishes, validating stock and updating inventory")
+    public ResponseEntity<?> createOrder(@Valid @RequestBody CreateOrderRequest request) {
         try {
-            Object tableNumberObj = body.get("tableNumber");
-            if (tableNumberObj == null) {
-                return ResponseEntity.badRequest().build();
-            }
-            int tableNumber = (tableNumberObj instanceof Number) ? ((Number) tableNumberObj).intValue() : Integer.parseInt(String.valueOf(tableNumberObj));
+            log.info("Creating order for table {} with {} dishes", request.tableNumber(), request.dishes().size());
 
-            Long orderId = orderCommandService.handle(new CreateOrderCommand(tableNumber));
+            // Convertir CreateOrderRequest a CreateOrderWithDishesCommand
+            List<CreateOrderWithDishesCommand.OrderDishInfo> dishes = request.dishes().stream()
+                    .map(dish -> new CreateOrderWithDishesCommand.OrderDishInfo(
+                            dish.dishId(),
+                            dish.quantity(),
+                            dish.unitPrice(),
+                            dish.finalPrice()
+                    ))
+                    .collect(Collectors.toList());
+
+            CreateOrderWithDishesCommand command = new CreateOrderWithDishesCommand(
+                    request.tableNumber(),
+                    dishes
+            );
+
+            Long orderId = orderCommandService.handle(command);
+
             Map<String, Object> resp = new HashMap<>();
             resp.put("orderId", orderId);
+            resp.put("message", "Order created successfully");
             return ResponseEntity.status(HttpStatus.CREATED).body(resp);
+
+        } catch (IllegalArgumentException e) {
+            log.warn("Invalid order creation request: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
             log.error("Error creating order in DB", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Internal server error: " + e.getMessage()));
         }
     }
 
     @GetMapping("/table/{tableNumber}")
     @Operation(summary = "Get orders by table number", description = "Retrieve Orders by table number")
-    public ResponseEntity<List<Order>> getOrdersByTableNumber(@PathVariable int tableNumber) {
-        List<Order> orders = orderQueryService.handle(new GetOrdersByTableNumberQuery(tableNumber));
-        return ResponseEntity.ok(orders);
+    public ResponseEntity<List<OrderResponse>> getOrdersByTableNumber(@PathVariable int tableNumber) {
+        try {
+            List<Order> orders = orderQueryService.handle(new GetOrdersByTableNumberQuery(tableNumber));
+            List<OrderResponse> responses = orders.stream()
+                    .map(this::toOrderResponse)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(responses);
+        } catch (Exception e) {
+            log.error("Error fetching orders for table {}", tableNumber, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 
     @GetMapping
     @Operation(summary = "Get all orders", description = "Retrieve all Orders")
-    public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> orders = orderQueryService.handle(new GetAllOrdersQuery());
-        return ResponseEntity.ok(orders);
+    public ResponseEntity<List<OrderResponse>> getAllOrders() {
+        try {
+            List<Order> orders = orderQueryService.handle(new GetAllOrdersQuery());
+            List<OrderResponse> responses = orders.stream()
+                    .map(this::toOrderResponse)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(responses);
+        } catch (Exception e) {
+            log.error("Error fetching all orders", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Convierte una entidad Order a OrderResponse
+     */
+    private OrderResponse toOrderResponse(Order order) {
+        List<OrderResponse.OrderItemResponse> items = order.getOrderSummary().getOrderItems().stream()
+                .map(item -> new OrderResponse.OrderItemResponse(
+                        item.getDish().getId(),
+                        item.getDish().getName(),
+                        item.getQuantity().quantity(),
+                        item.getUnitPrice(),
+                        item.getFinalPrice()
+                ))
+                .collect(Collectors.toList());
+
+        return new OrderResponse(
+                order.getId(),
+                order.getTableNumber(),
+                items,
+                order.getTotal().price(),
+                order.getCreatedAt()
+        );
     }
 
 }

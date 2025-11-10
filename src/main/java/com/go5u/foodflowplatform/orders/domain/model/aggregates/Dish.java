@@ -48,4 +48,8 @@ public class Dish extends AuditableModel {
         }
     }
 
+    public void setId(Long id) {
+        this.Id = id;
+    }
+
 }

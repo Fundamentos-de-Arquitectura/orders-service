@@ -35,20 +35,41 @@ public class OrderItem extends AuditableModel {
     private Quantity quantity;
 
     @NotNull
-    private BigDecimal subtotal;
+    private BigDecimal unitPrice; // Precio unitario del plato
 
+    @NotNull
+    private BigDecimal finalPrice; // Precio final (unitPrice * quantity)
+
+    public OrderItem(Order order, Dish dish, Quantity quantity, BigDecimal unitPrice, BigDecimal finalPrice) {
+        this.order = order;
+        this.dish = dish;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.finalPrice = finalPrice;
+    }
+
+    public OrderItem() {
+        // Constructor por defecto para JPA
+    }
+
+    // Método legacy para compatibilidad
     public OrderItem(Order order, Dish dish, Quantity quantity, BigDecimal subtotal) {
         this.order = order;
         this.dish = dish;
         this.quantity = quantity;
-        this.subtotal = subtotal;
+        this.unitPrice = subtotal;
+        this.finalPrice = subtotal;
     }
 
-    public OrderItem() {
-
+    public BigDecimal getSubtotal() {
+        return finalPrice;
     }
 
-    public OrderItem(Order order, Dish dish, Quantity quantity) {
-        super();
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+
+    public BigDecimal getFinalPrice() {
+        return finalPrice;
     }
 }

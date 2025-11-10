@@ -20,12 +20,12 @@ public class OrderEventProducer {
     @Value("${kafka.topic.orders-events:orders-events}")
     private String ordersTopicName;
 
-    private final KafkaTemplate<String, OrderEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     public void publishOrderEvent(OrderEvent event) {
         event.setTimestamp(LocalDateTime.now());
 
-        Message<OrderEvent> message = MessageBuilder
+        Message<Object> message = MessageBuilder
                 .withPayload(event)
                 .setHeader(KafkaHeaders.TOPIC, ordersTopicName)
                 .setHeader(KafkaHeaders.KEY, event.getOrderId().toString())
