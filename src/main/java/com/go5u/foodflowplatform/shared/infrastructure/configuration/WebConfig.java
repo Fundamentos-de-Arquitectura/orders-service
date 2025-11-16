@@ -7,12 +7,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig {
+    // CORS is handled by API Gateway - no need to configure here to avoid duplicate headers
+    // Keeping this class in case direct service access is needed in the future
+    /*
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // o /** si quieres permitir todo
+                registry.addMapping("/**")
                         .allowedOrigins("http://localhost:4200")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
@@ -20,4 +23,5 @@ public class WebConfig {
             }
         };
     }
+    */
 }

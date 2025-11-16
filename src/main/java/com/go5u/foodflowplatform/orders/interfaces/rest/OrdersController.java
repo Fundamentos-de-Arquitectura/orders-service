@@ -55,7 +55,8 @@ public class OrdersController {
 
             CreateOrderWithDishesCommand command = new CreateOrderWithDishesCommand(
                     request.tableNumber(),
-                    dishes
+                    dishes,
+                    request.userId()
             );
 
             Long orderId = orderCommandService.handle(command);
@@ -125,7 +126,8 @@ public class OrdersController {
                 order.getTableNumber(),
                 items,
                 order.getTotal().price(),
-                order.getCreatedAt()
+                order.getCreatedAt(),
+                java.util.Collections.emptyList() // Stock warnings are checked at creation time
         );
     }
 

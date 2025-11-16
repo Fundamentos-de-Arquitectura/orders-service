@@ -12,7 +12,8 @@ public record OrderResponse(
         Integer tableNumber,
         List<OrderItemResponse> items,
         BigDecimal totalPrice,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        List<StockWarningResponse> stockWarnings // Stock warnings for this order
 ) {
     /**
      * DTO para un item de la orden
@@ -23,6 +24,17 @@ public record OrderResponse(
             Integer quantity,
             BigDecimal unitPrice,
             BigDecimal finalPrice
+    ) {}
+
+    /**
+     * DTO for stock warnings
+     */
+    public record StockWarningResponse(
+            String ingredientName,
+            String warningLevel,
+            Integer availableQuantity,
+            Double requiredQuantity,
+            String message
     ) {}
 }
 

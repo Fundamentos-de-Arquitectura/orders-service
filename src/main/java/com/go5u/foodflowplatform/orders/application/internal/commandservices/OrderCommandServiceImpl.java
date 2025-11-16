@@ -53,11 +53,12 @@ public class OrderCommandServiceImpl implements OrderCommandService {
         var order = new Order(
                 command.tableNumber(),
                 new Price(BigDecimal.ZERO),
-                new OrderSummary()
+                new OrderSummary(),
+                command.userId()
         );
         try{
             orderRepository.save(order);
-            log.info("Order created with ID: {}", order.getId());
+            log.info("Order created with ID: {} for user: {}", order.getId(), command.userId());
         } catch(Exception e){
             throw new IllegalArgumentException("Error while saving order: " + e.getMessage());
         }
@@ -121,6 +122,7 @@ public class OrderCommandServiceImpl implements OrderCommandService {
         // 1. Obtener información de platos desde Menu service y validar stock
         Map<Long, DishResponse> dishesInfo = new HashMap<>();
         Map<String, Double> requiredIngredients = new HashMap<>(); // Nombre -> cantidad total necesaria
+        List<String> stockWarnings = new java.util.ArrayList<>(); // Para mensajes de advertencia
 
         // Obtener cada plato y calcular ingredientes necesarios
         for (var dishInfo : command.dishes()) {
@@ -149,9 +151,16 @@ public class OrderCommandServiceImpl implements OrderCommandService {
             }
 
             Integer availableStock = stockOpt.get().availableQuantity();
+            
+            // Check if stock is insufficient
+            if (availableStock == 0) {
+                throw new IllegalArgumentException(
+                        String.format("The inventory has no %s", ingredientName));
+            }
+            
             if (availableStock < requiredQuantity.intValue()) {
                 throw new IllegalArgumentException(
-                        String.format("Insufficient stock for ingredient '%s'. Required: %.2f, Available: %d",
+                        String.format("The inventory doesn't have enough %s. Required: %.2f, Available: %d",
                                 ingredientName, requiredQuantity, availableStock));
             }
 
@@ -199,21 +208,7 @@ public class OrderCommandServiceImpl implements OrderCommandService {
             orderRepository.save(order);
             log.info("Order created successfully with ID: {}", order.getId());
 
-            // 5. Restar ingredientes del inventario
-            for (Map.Entry<String, Double> entry : requiredIngredients.entrySet()) {
-                String ingredientName = entry.getKey();
-                Double quantityToDecrease = entry.getValue();
-
-                boolean success = inventoryClient.decreaseIngredientStock(ingredientName, quantityToDecrease);
-                if (!success) {
-                    log.error("Failed to decrease stock for ingredient: {}", ingredientName);
-                    // En un escenario real, podrías implementar rollback aquí
-                } else {
-                    log.info("Decreased stock for ingredient {} by {}", ingredientName, quantityToDecrease);
-                }
-            }
-
-            // 6. Publicar evento de orden creada
+            // 5. Publicar evento de orden creada (inventory service procesará la actualización de stock via Kafka)
             publishOrderEvent(order);
 
             return order.getId();

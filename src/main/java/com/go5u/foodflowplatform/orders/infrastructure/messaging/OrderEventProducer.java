@@ -26,7 +26,7 @@ public class OrderEventProducer {
         event.setTimestamp(LocalDateTime.now());
 
         Message<Object> message = MessageBuilder
-                .withPayload(event)
+                .withPayload((Object) event)
                 .setHeader(KafkaHeaders.TOPIC, ordersTopicName)
                 .setHeader(KafkaHeaders.KEY, event.getOrderId().toString())
                 .setHeader("event-type", event.getStatus())

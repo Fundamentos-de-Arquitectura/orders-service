@@ -15,7 +15,10 @@ public record CreateOrderRequest(
         Integer tableNumber,
 
         @NotNull(message = "Los platos son obligatorios")
-        List<OrderDishRequest> dishes
+        List<OrderDishRequest> dishes,
+
+        @NotNull(message = "El ID del usuario es obligatorio")
+        Long userId
 ) {
     /**
      * DTO para un plato en la orden

@@ -8,7 +8,8 @@ import java.util.List;
  */
 public record CreateOrderWithDishesCommand(
         Integer tableNumber,
-        List<OrderDishInfo> dishes
+        List<OrderDishInfo> dishes,
+        Long userId
 ) {
     public record OrderDishInfo(
             Long dishId,

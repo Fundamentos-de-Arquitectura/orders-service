@@ -28,16 +28,27 @@ public class Order extends AuditableAbstractAggregateRoot<Order> {
     @Embedded
     private final OrderSummary orderSummary;
 
+    @Column(name = "user_id")
+    private Long userId; // ID of the user who created the order
+
     public Order(int tableNumber, Price total, OrderSummary orderSummary) {
         this.tableNumber = tableNumber;
         this.total = total;
         this.orderSummary = orderSummary;
     }
 
+    public Order(int tableNumber, Price total, OrderSummary orderSummary, Long userId) {
+        this.tableNumber = tableNumber;
+        this.total = total;
+        this.orderSummary = orderSummary;
+        this.userId = userId;
+    }
+
     public Order(CreateOrderCommand command, OrderSummary orderSummary) {
         this.tableNumber = command.tableNumber();
         this.total = new Price(BigDecimal.ZERO); // O el valor que corresponda
         this.orderSummary = orderSummary;
+        this.userId = command.userId();
     }
 
     public Order() {

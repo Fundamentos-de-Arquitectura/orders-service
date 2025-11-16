@@ -5,6 +5,6 @@ import com.go5u.foodflowplatform.orders.interfaces.rest.resources.CreateOrderRes
 
 public class CreateOrderCommandFromResourceAssembler {
     public static CreateOrderCommand toCommandFromResource(CreateOrderResource resource) {
-        return new CreateOrderCommand(resource.tableNumber());
+        return new CreateOrderCommand(resource.tableNumber(), resource.userId());
     }
 }
