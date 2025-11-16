@@ -109,7 +109,8 @@ public class OrderCommandServiceImpl implements OrderCommandService {
                 items,
                 "CREATED",
                 null,
-                order.getTableNumber()
+                order.getTableNumber(),
+                order.getUserId()
         );
 
         orderEventProducer.publishOrderEvent(event);
@@ -145,7 +146,7 @@ public class OrderCommandServiceImpl implements OrderCommandService {
             String ingredientName = entry.getKey();
             Double requiredQuantity = entry.getValue();
 
-            var stockOpt = inventoryClient.getStockByIngredientName(ingredientName);
+            var stockOpt = inventoryClient.getStockByIngredientName(command.userId(), ingredientName);
             if (stockOpt.isEmpty()) {
                 throw new IllegalArgumentException("Ingredient not found in inventory: " + ingredientName);
             }
@@ -172,7 +173,8 @@ public class OrderCommandServiceImpl implements OrderCommandService {
         Order order = new Order(
                 command.tableNumber(),
                 new Price(BigDecimal.ZERO),
-                new OrderSummary()
+                new OrderSummary(),
+                command.userId()
         );
 
         BigDecimal totalPrice = BigDecimal.ZERO;

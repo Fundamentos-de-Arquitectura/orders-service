@@ -1,4 +1,4 @@
 package com.go5u.foodflowplatform.orders.domain.model.queries;
 
-public record GetAllOrdersQuery() {
+public record GetAllOrdersQuery(Long userId) {
 }

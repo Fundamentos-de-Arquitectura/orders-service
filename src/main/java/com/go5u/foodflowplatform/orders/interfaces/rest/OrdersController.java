@@ -92,17 +92,18 @@ public class OrdersController {
     }
 
 
-    @GetMapping
-    @Operation(summary = "Get all orders", description = "Retrieve all Orders")
-    public ResponseEntity<List<OrderResponse>> getAllOrders() {
+    @GetMapping("/users/{userId}")
+    @Operation(summary = "Get all orders for a user", description = "Retrieve all Orders for a specific user")
+    public ResponseEntity<List<OrderResponse>> getAllOrders(@PathVariable Long userId) {
         try {
-            List<Order> orders = orderQueryService.handle(new GetAllOrdersQuery());
+            log.info("Fetching all orders for user {}", userId);
+            List<Order> orders = orderQueryService.handle(new GetAllOrdersQuery(userId));
             List<OrderResponse> responses = orders.stream()
                     .map(this::toOrderResponse)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(responses);
         } catch (Exception e) {
-            log.error("Error fetching all orders", e);
+            log.error("Error fetching all orders for user {}", userId, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

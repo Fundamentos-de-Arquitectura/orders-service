@@ -25,7 +25,7 @@ public class OrderQueryServiceImpl implements OrderQueryService {
 
     @Override
     public List<Order> handle(GetAllOrdersQuery query){
-        return orderRepository.findAll();
+        return orderRepository.findAllByUserId(query.userId());
     }
 
     @Override

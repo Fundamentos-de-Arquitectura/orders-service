@@ -28,10 +28,11 @@ public class OrderItemController {
         this.orderQueryService = orderQueryService;
     }
 
-    @Operation(summary = "Get all order items", description = "Retrieve all order items across all orders from the database")
-    @GetMapping
-    public ResponseEntity<List<OrderItemResource>> getAllOrderItems() {
-        List<Order> orders = orderQueryService.handle(new GetAllOrdersQuery());
+    @Operation(summary = "Get all order items for a user", description = "Retrieve all order items across all orders for a specific user")
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<List<OrderItemResource>> getAllOrderItems(@PathVariable Long userId) {
+        log.info("Fetching all order items for user {}", userId);
+        List<Order> orders = orderQueryService.handle(new GetAllOrdersQuery(userId));
 
         List<OrderItemResource> items = orders.stream()
                 .flatMap(order -> order.getOrderSummary().getOrderItems().stream())
@@ -41,10 +42,13 @@ public class OrderItemController {
         return ResponseEntity.ok(items);
     }
 
-    @Operation(summary = "Get order item by ID", description = "Retrieve a single order item by item ID from the database")
-    @GetMapping("/{itemId}")
-    public ResponseEntity<OrderItemResource> getOrderItemById(@PathVariable Long itemId) {
-        List<Order> orders = orderQueryService.handle(new GetAllOrdersQuery());
+    @Operation(summary = "Get order item by ID for a user", description = "Retrieve a single order item by item ID from the database for a specific user")
+    @GetMapping("/users/{userId}/{itemId}")
+    public ResponseEntity<OrderItemResource> getOrderItemById(
+            @PathVariable Long userId,
+            @PathVariable Long itemId) {
+        log.info("Fetching order item {} for user {}", itemId, userId);
+        List<Order> orders = orderQueryService.handle(new GetAllOrdersQuery(userId));
         for (Order order : orders) {
             var items = order.getOrderSummary().getOrderItems();
             for (var item : items) {

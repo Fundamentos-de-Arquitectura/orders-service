@@ -28,19 +28,20 @@ public class InventoryClient {
     }
 
     /**
-     * Obtiene el stock disponible de un ingrediente por nombre
+     * Obtiene el stock disponible de un ingrediente por nombre para un usuario específico
+     * @param userId ID del usuario
      * @param ingredientName Nombre del ingrediente
      * @return Optional con el stock o vacío si no existe
      */
-    public Optional<InventoryStockResponse> getStockByIngredientName(String ingredientName) {
+    public Optional<InventoryStockResponse> getStockByIngredientName(Long userId, String ingredientName) {
         try {
-            logger.info("Fetching stock for ingredient: {}", ingredientName);
+            logger.info("Fetching stock for ingredient: {} for user {}", ingredientName, userId);
 
             InventoryStockResponse stock = restClient.get()
-                    .uri("/api/v1/inventory/ingredients/{ingredientName}/stock", ingredientName)
+                    .uri("/api/v1/inventory/users/{userId}/ingredients/{ingredientName}/stock", userId, ingredientName)
                     .retrieve()
                     .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(), (request, response) -> {
-                        logger.warn("Error fetching stock for ingredient {}: Status {}", ingredientName, response.getStatusCode());
+                        logger.warn("Error fetching stock for ingredient {} for user {}: Status {}", ingredientName, userId, response.getStatusCode());
                         throw new RuntimeException("Stock not found or error in Inventory service");
                     })
                     .body(InventoryStockResponse.class);
@@ -48,42 +49,43 @@ public class InventoryClient {
             return Optional.ofNullable(stock);
 
         } catch (org.springframework.web.client.HttpClientErrorException.NotFound e) {
-            logger.warn("Ingredient {} not found in Inventory service", ingredientName);
+            logger.warn("Ingredient {} not found in Inventory service for user {}", ingredientName, userId);
             return Optional.empty();
         } catch (Exception e) {
-            logger.error("Error fetching stock for ingredient {}: {}", ingredientName, e.getMessage(), e);
+            logger.error("Error fetching stock for ingredient {} for user {}: {}", ingredientName, userId, e.getMessage(), e);
             return Optional.empty();
         }
     }
 
     /**
-     * Resta cantidad de un ingrediente del inventario
+     * Resta cantidad de un ingrediente del inventario para un usuario específico
+     * @param userId ID del usuario
      * @param ingredientName Nombre del ingrediente
      * @param quantity Cantidad a restar
      * @return true si se restó exitosamente, false en caso contrario
      */
-    public boolean decreaseIngredientStock(String ingredientName, Double quantity) {
+    public boolean decreaseIngredientStock(Long userId, String ingredientName, Double quantity) {
         try {
-            logger.info("Decreasing stock for ingredient {} by {}", ingredientName, quantity);
+            logger.info("Decreasing stock for ingredient {} by {} for user {}", ingredientName, quantity, userId);
 
             var request = Map.of("quantity", quantity);
 
             restClient.post()
-                    .uri("/api/v1/inventory/ingredients/{ingredientName}/decrease", ingredientName)
+                    .uri("/api/v1/inventory/users/{userId}/ingredients/{ingredientName}/decrease", userId, ingredientName)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(request)
                     .retrieve()
                     .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(), (req, res) -> {
-                        logger.warn("Error decreasing stock for ingredient {}: Status {}", ingredientName, res.getStatusCode());
+                        logger.warn("Error decreasing stock for ingredient {} for user {}: Status {}", ingredientName, userId, res.getStatusCode());
                         throw new RuntimeException("Failed to decrease stock");
                     })
                     .toBodilessEntity();
 
-            logger.info("Successfully decreased stock for ingredient {} by {}", ingredientName, quantity);
+            logger.info("Successfully decreased stock for ingredient {} by {} for user {}", ingredientName, quantity, userId);
             return true;
 
         } catch (Exception e) {
-            logger.error("Error decreasing stock for ingredient {}: {}", ingredientName, e.getMessage(), e);
+            logger.error("Error decreasing stock for ingredient {} for user {}: {}", ingredientName, userId, e.getMessage(), e);
             return false;
         }
     }
